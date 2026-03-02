@@ -46,14 +46,21 @@ build.log
 DEPLOYMENT.md
 DEPLOY_TIMEWEB.md
 
-# local scripts
-build.ps1
-start-dev.ps1
-run-dev.bat
-run-dev-fixed.bat
-run-dev-fixed.ps1
-start-project.bat
-start-dev-clean.ps1
+# local scripts (now tracked)
+# build.ps1
+# start-dev.ps1
+# run-dev.bat
+# run-dev-fixed.bat
+# run-dev-fixed.ps1
+# start-project.bat
+# start-dev-clean.ps1
+# run-project.bat
+# start-server.bat
+# server-start.sh
+# deploy.sh
+# deploy-timeweb.sh
+# ecosystem.config.js
+# GITHUB_SETUP.md
 
 # public assets
 public/.htaccess
