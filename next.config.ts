@@ -4,9 +4,6 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
-  // Static export for shared hosting
-  output: 'export',
-  
   // i18n configuration for static export
   
   // Оптимизация изображений
