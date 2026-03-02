@@ -4,12 +4,18 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // Static export for shared hosting
+  output: 'export',
+  
+  // i18n configuration for static export
+  
   // Оптимизация изображений
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 дней
+    unoptimized: true, // Required for static export
   },
   
   // Оптимизация компиляции
@@ -36,6 +42,9 @@ const nextConfig: NextConfig = {
   httpAgentOptions: {
     keepAlive: true,
   },
+  
+  // Trailing slash for static hosting
+  trailingSlash: true,
   
 };
 
