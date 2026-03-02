@@ -26,12 +26,11 @@ const navItems: NavItem[] = [
   { label: 'Кредитные карты', href: '/cards' },
   { label: 'Статьи', href: '/articles' },
   { label: 'FAQ', href: '/faq' },
-  { 
+{ 
     label: 'Ещё', 
     href: '#',
     subitems: [
       { label: 'Отзывы', href: '/reviews' },
-      { label: 'Промокоды', href: '/promokody' },
       { label: 'Жалоба в ЦБ РФ', href: '/complaint-cb' },
       { label: 'Нелегальные кредиторы', href: '/illegal-lenders' },
     ]

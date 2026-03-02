@@ -130,6 +130,17 @@ export default function AdminPage() {
     setPassword('')
   }
 
+  // ВСЕ хуки должны вызываться ПЕРЕД условными return!
+  const { mfoData, addMfo, updateMfo, deleteMfo, resetData: resetMfo } = useMfoData()
+  const { cardsData, addCard, updateCard, deleteCard, resetCards } = useCardsData()
+  const { articlesData, addArticle, updateArticle, deleteArticle, resetArticles } = useArticlesData()
+  const { faqData, addFAQ, updateFAQ, deleteFAQ, resetFAQ } = useFAQData()
+  const { footerData, updateFooterData, resetFooterData, isLoaded: footerLoaded } = useFooterData()
+  const { loansInfo, updateLoansInfo, resetLoansInfo, isLoaded: loansInfoLoaded } = useLoansInfo()
+  const { pageData, updateAbout, updateTerms, resetPageData } = usePageData()
+  const { analytics, getConversionRate, resetAnalytics } = useAnalytics()
+  const { promoCodes, addPromoCode, updatePromoCode, deletePromoCode, resetPromoCodes, isLoaded: promoLoaded } = usePromoCodesData()
+
   // Показываем лоадер пока проверяем авторизацию
   if (isAuthenticated === null) {
     return (
@@ -190,16 +201,6 @@ export default function AdminPage() {
       </Box>
     )
   }
-
-  const { mfoData, addMfo, updateMfo, deleteMfo, resetData: resetMfo } = useMfoData()
-  const { cardsData, addCard, updateCard, deleteCard, resetCards } = useCardsData()
-  const { articlesData, addArticle, updateArticle, deleteArticle, resetArticles } = useArticlesData()
-  const { faqData, addFAQ, updateFAQ, deleteFAQ, resetFAQ } = useFAQData()
-  const { footerData, updateFooterData, resetFooterData, isLoaded: footerLoaded } = useFooterData()
-  const { loansInfo, updateLoansInfo, resetLoansInfo, isLoaded: loansInfoLoaded } = useLoansInfo()
-  const { pageData, updateAbout, updateTerms, resetPageData } = usePageData()
-  const { analytics, getConversionRate, resetAnalytics } = useAnalytics()
-  const { promoCodes, addPromoCode, updatePromoCode, deletePromoCode, resetPromoCodes, isLoaded: promoLoaded } = usePromoCodesData()
 
   const handleAdd = () => {
     setEditingItem(null)
