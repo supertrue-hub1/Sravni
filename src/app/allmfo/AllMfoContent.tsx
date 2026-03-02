@@ -24,6 +24,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
   const [mfoData, setMfoData] = useState<MFO[]>(staticMfoData)
   const [isLoaded, setIsLoaded] = useState(true)
 
+  // Загрузка данных из localStorage при монтировании
   useEffect(() => {
     const loadData = () => {
       if (typeof window === 'undefined') return
@@ -32,6 +33,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
       if (storedMfo) {
         try {
           const parsed = JSON.parse(storedMfo)
+          // Если данные есть и это массив - используем их
           if (Array.isArray(parsed) && parsed.length > 0) {
             setMfoData(parsed)
           }
@@ -86,6 +88,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           В нашем каталоге собраны все доступные кредиты наличными и онлайн-займы. Сравните условия выдачи, процентные ставки (от 0% для новых клиентов) и требования к заемщикам. Выберите лучшее финансовое предложение и получите деньги на карту или счет в день обращения.
         </Typography>
 
+        {/* Калькулятор */}
         <Card sx={{ p: 3, mb: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 3 }}>
           <Grid container spacing={3}>
             <Grid size={{ xs: 12, md: 4 }}>
@@ -201,6 +204,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           </Typography>
         </Card>
           
+        {/* Сортировка */}
         <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             Выберите займ
@@ -238,6 +242,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           </ToggleButtonGroup>
         </Box>
 
+        {/* Категории займов */}
         <Box sx={{ mb: 4 }}>
           <Grid container spacing={1.5} sx={{ justifyContent: 'center' }}>
             {[
@@ -280,7 +285,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           </Grid>
         </Box>
 
-        <Grid container spacing={1.5}>
+        <Grid container spacing={2}>
           {filteredMfo.map((mfo) => (
             <Grid size={{ xs: 6, md: 3 }} key={mfo.id}>
               <Card 
@@ -290,70 +295,73 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   cursor: 'pointer',
                   '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 10px 20px rgba(102, 126, 234, 0.3)',
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 20px 40px rgba(102, 126, 234, 0.3)',
                   }
                 }}
               >
-                <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Logo logo={mfo.logo} size={32} />
+                <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Logo logo={mfo.logo} size={50} />
                       <Box>
-                        <Typography variant="body1" sx={{ fontWeight: 700, fontSize: '0.85rem', lineHeight: 1.2 }}>{mfo.name}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <Rating value={mfo.rating} precision={0.1} size="small" readOnly sx={{ fontSize: '0.9rem' }} />
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>{mfo.name}</Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Rating value={mfo.rating} precision={0.1} size="small" readOnly />
+                          <Typography variant="body2" color="text.secondary">
+                            ({mfo.reviews.toLocaleString()})
+                          </Typography>
                         </Box>
                       </Box>
                     </Box>
-                    {mfo.badge && <Chip label={mfo.badge} color="success" size="small" sx={{ fontSize: '0.6rem', height: 18, whiteSpace: 'nowrap' }} />}
+                    {mfo.badge && <Chip label={mfo.badge} color="success" size="small" />}
                   </Box>
 
-                  <Grid container spacing={0.5} sx={{ mb: 1 }}>
+                  <Grid container spacing={2} sx={{ mb: 2 }}>
                     <Grid size={{ xs: 6 }}>
-                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>Сумма</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.7rem', lineHeight: 1.2 }}>
-                        {mfo.sumMin.toLocaleString()}-{mfo.sumMax.toLocaleString()} ₽
+                      <Typography variant="body2" color="text.secondary">Сумма</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        {mfo.sumMin.toLocaleString()} - {mfo.sumMax.toLocaleString()} ₽
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6 }}>
-                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>Срок</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.7rem', lineHeight: 1.2 }}>
-                        {mfo.termMin}-{mfo.termMax} дн.
+                      <Typography variant="body2" color="text.secondary">Срок</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                        {mfo.termMin}-{mfo.termMax} дней
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6 }}>
-                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>Ставка</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, color: '#4caf50', fontSize: '0.7rem', lineHeight: 1.2 }}>
-                        {mfo.percent}%
+                      <Typography variant="body2" color="text.secondary">Ставка</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600, color: '#4caf50' }}>
+                        {mfo.percent}% в день
                       </Typography>
                     </Grid>
                     <Grid size={{ xs: 6 }}>
-                      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>Вероятность</Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.7rem', lineHeight: 1.2 }}>Высокая</Typography>
+                      <Typography variant="body2" color="text.secondary">Вероятность</Typography>
+                      <Typography variant="body1" sx={{ fontWeight: 600 }}>Высокая</Typography>
                     </Grid>
                   </Grid>
 
-                  <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mb: 1 }}>
-                    {mfo.firstFree && <Chip label="0%" color="primary" size="small" sx={{ fontSize: '0.6rem', height: 16 }} />}
-                    {mfo.instant && <Chip label="Мгновенно" size="small" sx={{ fontSize: '0.6rem', height: 16 }} />}
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
+                    {mfo.firstFree && <Chip label="Первый займ 0%" color="primary" size="small" />}
+                    {mfo.instant && <Chip label="Мгновенно" size="small" />}
                   </Box>
 
-                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button
                       variant="outlined"
                       onClick={() => setSelectedMfo(mfo)}
-                      sx={{ minWidth: 28, height: 24, p: 0, minHeight: 24 }}
+                      sx={{ minWidth: 50 }}
                     >
-                      <Info sx={{ fontSize: 14 }} />
+                      <Info />
                     </Button>
                     <Button
                       variant="contained"
                       fullWidth
                       onClick={() => window.open(mfo.siteUrl || '#', '_blank')}
-                      sx={{ bgcolor: '#4caf50', '&:hover': { bgcolor: '#388e3c' }, fontSize: '0.7rem', py: 0.25, minHeight: 24, lineHeight: 1.2 }}
+                      sx={{ bgcolor: '#4caf50', '&:hover': { bgcolor: '#388e3c' } }}
                     >
-                      Получить
+                      Получить деньги
                     </Button>
                   </Box>
                 </CardContent>
@@ -515,6 +523,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           )}
         </Dialog>
 
+        {/* Таблица ТОП-10 МФО */}
         <Box sx={{ mt: 6 }}>
           <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>
             Где взять займ онлайн – ТОП-10 МФО 2026
@@ -602,6 +611,7 @@ export default function AllMfoContent({ pageTitle }: AllMfoContentProps) {
           </Paper>
         </Box>
 
+        {/* Информация о займах */}
         <Box sx={{ mt: 6 }}>
           <Typography variant="h4" sx={{ mb: 3, fontWeight: 800 }}>
             {loansInfoData.title}
